@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Project Viewer | Supabase Cloud</title>
+  
+  <!-- Supabase Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="toast" class="msg-box"></div>
+
+  <!-- LOADING VIEW -->
+  <div id="view-loading" class="view-section active center-screen">
+    <div style="text-align:center;">
+      <div class="spinner"></div>
+      <h3 id="loading-text">Connecting to Cloud...</h3>
+    </div>
+  </div>
+
+  <!-- AUTH VIEW -->
+  <div id="view-auth" class="view-section center-screen">
+    <div class="action-box">
+      <h2 id="auth-title">Welcome</h2>
+      <p style="color:var(--text-dim); margin-bottom:1.5rem;">Access your Project Cloud</p>
+      
+      <input type="email" id="auth-email" placeholder="Email Address">
+      <input type="password" id="auth-password" placeholder="Password">
+      
+      <button class="btn-base btn-primary" id="btn-auth-main" style="width:100%; margin-top:10px;">Log In</button>
+      <button class="btn-text" id="btn-auth-toggle">Need an account? Sign Up</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD VIEW -->
+  <div id="view-dashboard" class="view-section">
+    <header class="toolbar">
+      <span style="font-weight:700; color: var(--accent);" id="user-display">Cloud Storage</span>
+      <div class="toolbar-group">
+        <button class="btn-base btn-secondary" id="btn-view-projects">🗃️ Projects</button>
+        <button class="btn-base btn-danger" id="btn-logout">Exit</button>
+      </div>
+    </header>
+    <div class="center-screen" style="flex:1; padding: 20px;">
+      <div class="action-box">
+        <h2>Upload Project</h2>
+        <p style="font-size:0.85rem; color:var(--text-dim); margin: 15px 0;">Select HTML, CSS, JS from local storage</p>
+        
+        <label class="btn-base btn-primary" style="width:100%; margin-bottom: 10px;">
+          📁 Choose Files
+          <input type="file" id="file-input" multiple hidden>
+        </label>
+        
+        <div id="file-preview-list" style="text-align:left; font-size:0.85rem; color: var(--success); margin: 10px 0;"></div>
+        
+        <div id="upload-buttons" style="display:none; flex-direction:column; gap:10px;">
+          <button class="btn-base btn-success" id="btn-save-trigger">💾 Save to Cloud</button>
+          <button class="btn-base btn-secondary" id="btn-open-editor">📝 Edit Locally</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS VIEW -->
+  <div id="view-projects" class="view-section">
+    <header class="toolbar">
+      <button class="btn-base btn-secondary" id="btn-back-dashboard">← Back</button>
+      <span style="font-weight:600;">My Projects</span>
+      <div style="width:40px;"></div>
+    </header>
+    <div class="scroll-container">
+      <div id="project-grid-container" class="projects-grid"></div>
+    </div>
+  </div>
+
+  <!-- EDITOR VIEW -->
+  <div id="view-editor" class="view-section">
+    <header class="toolbar">
+      <button class="btn-base btn-secondary" id="btn-exit-editor">← Close</button>
+      <div class="toolbar-group">
+        <button class="btn-base btn-primary" id="btn-run-code">▶ Preview</button>
+        <button class="btn-base btn-success" id="btn-cloud-update">💾 Sync</button>
+      </div>
+    </header>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="html">index.html</button>
+      <button class="tab-btn" data-tab="css">style.css</button>
+      <button class="tab-btn" data-tab="js">script.js</button>
+    </div>
+    <textarea id="edit-html" class="code-area" spellcheck="false" placeholder="HTML code..."></textarea>
+    <textarea id="edit-css" class="code-area" style="display:none;" spellcheck="false" placeholder="CSS code..."></textarea>
+    <textarea id="edit-js" class="code-area" style="display:none;" spellcheck="false" placeholder="JS code..."></textarea>
+  </div>
+
+  <!-- PREVIEW VIEW (USED FOR SHARED LINKS) -->
+  <div id="view-preview" class="view-section">
+    <header id="preview-header" class="toolbar">
+      <button class="btn-base btn-secondary" id="btn-close-preview">← Back</button>
+      <span>Live Preview</span>
+    </header>
+    <iframe id="preview-frame"></iframe>
+  </div>
+
+  <!-- SAVE DIALOG -->
+  <div id="modal-save" class="modal-overlay">
+    <div class="action-box">
+      <h3>Project Name</h3>
+      <input type="text" id="project-name-input" placeholder="e.g. Portfolio">
+      <button class="btn-base btn-success" id="btn-final-save" style="width:100%;">Upload to Cloud</button>
+      <button class="btn-text" id="btn-cancel-save">Cancel</button>
+    </div>
+  </div>
+
+  <!-- External JS -->
+  <script src="script.js"></script>
+</body>
+</html>
